@@ -6,6 +6,7 @@ import re
 import sys
 import ssl
 import glob
+import platform
 import time
 import shlex
 import signal
@@ -222,7 +223,10 @@ def probe_wsl(silent = False):
 
 	if not lxpath and not silent:
 		print('%s[!]%s Unable to find %slxrun.exe%s in the expected locations.' % (Fore.RED, Fore.RESET, Fore.BLUE, Fore.RESET))
-		sys.exit(-1)
+		rs_version = platform.version()
+		rs_version = rs_version.split(".")
+		if (float(rs_version[-1])<17741):
+			sys.exit(-1)
 		
 	bashpath = ''
 	#new iteration of WSL splitted all linux related resources in seperate folders inside C:\Windows\WinSxS\*
